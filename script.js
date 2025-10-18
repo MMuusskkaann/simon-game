@@ -5,6 +5,10 @@ let btns = ["yellow", "red", "purple", "green"];
 let started = false;
 let level = 0;
 
+// Persistent high score
+let highScore = localStorage.getItem("highScore") ? parseInt(localStorage.getItem("highScore")) : 0;
+
+// Elements
 let h2 = document.querySelector("h2");
 
 // Start game on keypress
@@ -30,7 +34,7 @@ function btnFlash(btn) {
 function nextLevel() {
     userseq = [];
     level++;
-    h2.innerText = `Level ${level}`;
+    h2.innerHTML = `Level: ${level} | High Score: ${highScore}`;
 
     let randomIdx = Math.floor(Math.random() * btns.length);
     let randomColor = btns[randomIdx];
@@ -52,18 +56,28 @@ function btnPress() {
     checkAnswer(userseq.length - 1);
 }
 
+// Check user input
 function checkAnswer(currentIndex) {
     if (userseq[currentIndex] === gameseq[currentIndex]) {
         if (userseq.length === gameseq.length) {
+            // Update high score if needed
+            if (level > highScore) {
+                highScore = level;
+                localStorage.setItem("highScore", highScore);
+            }
             setTimeout(nextLevel, 800);
         }
     } else {
         // Game over
-        h2.innerHTML = `Game Over! Your Score was <b>${level}</b> <br>Press any key to restart.`;
+        h2.innerHTML = `Game Over! Your Score: <b>${level}</b> | High Score: <b>${highScore}</b><br>Press any key to restart.`;
+
+        // Flash background red
         document.querySelector("body").style.backgroundColor = "red";
-        setTimeout(function() {
-           document.querySelector("body").style.backgroundColor = "white";
-        },150);
+        setTimeout(() => {
+            document.querySelector("body").style.backgroundColor = "white"; // match CSS
+        }, 150);
+
+        // Reset game
         started = false;
         gameseq = [];
         userseq = [];
