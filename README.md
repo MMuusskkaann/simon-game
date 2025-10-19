@@ -30,10 +30,3 @@ Play the game here: [Simon Game Live](https://MMuusskkaann.github.io/simon-game/
 5. Try to beat your high score!
 
 ---
-
-## Installation & Setup 💻
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/MMuusskkaann/simon-game.git
